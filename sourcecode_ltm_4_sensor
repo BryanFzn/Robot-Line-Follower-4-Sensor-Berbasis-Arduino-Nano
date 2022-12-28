@@ -1,0 +1,160 @@
+//pin sensor
+#define sen1 A3
+#define sen2 A1
+#define sen3 A2
+#define sen4 A0
+int ss1, ss2, ss3, ss4;
+int S1, S2, S3, S4;
+
+//Motor control pins- 
+//motor kiri - MOT0 & MOT1
+//motor kanan - MOT2 & MOT3
+const int MOT0 = 9;
+const int MOT1 = 8;
+const int MOT2 = 10;
+const int MOT3 = 11;
+
+void setup() {
+      pinMode(MOT0,OUTPUT);
+      pinMode(MOT1,OUTPUT);
+      pinMode(MOT2,OUTPUT);
+      pinMode(MOT3,OUTPUT);
+      // initialize the serial communications:
+      Serial.begin(9600);
+}
+
+void loop() {
+      //Untuk membaca value sensor pada serial monitor
+      S1 = analogRead(sen1);
+      S2 = analogRead(sen2);
+      S3 = analogRead(sen3);
+      S4 = analogRead(sen4);
+      Serial.print(S1); Serial.print("   ");
+      Serial.print(S2); Serial.print("   ");
+      Serial.print(S3); Serial.print("   ");
+      Serial.print(S4); Serial.print("   ");
+      Serial.println(" ");
+      //atur nilai sensor terlebih dahulu
+      if(S1 < 11)ss1 = 1; else ss1 = 0;
+      if(S2 < 11)ss2 = 1; else ss2 = 0;
+      if(S3 < 11)ss3 = 1; else ss3 = 0;
+      if(S4 < 11)ss4 = 1; else ss4 = 0;
+      Serial.print(ss1);Serial.print(" ");
+      Serial.print(ss2);Serial.print(" ");
+      Serial.print(ss3);Serial.print(" ");
+      Serial.print(ss4);Serial.print(" ");
+      Serial.println(" ");
+
+      //Pengkondisian arah robot line follower berdasarkan tabel kebenaran
+      if (ss1==1 && ss2==0 && ss3==0 && ss4==0) {
+            //1000
+            //belok kiri
+            digitalWrite(MOT0,LOW);
+            analogWrite(MOT1,0);
+            analogWrite(MOT2,100);
+            digitalWrite(MOT3,LOW);
+      }
+      else if (ss1==1 && ss2==1 && ss3==0 && ss4==0) {
+            //1100
+            //belok kiri
+            digitalWrite(MOT0,LOW);
+            analogWrite(MOT1,0);
+            analogWrite(MOT2,110);
+            digitalWrite(MOT3,LOW);
+      }
+      else if (ss1==1 && ss2==1 && ss3==1 && ss4==0) {
+            //1110
+            //belok kiri
+            digitalWrite(MOT0,LOW);
+            analogWrite(MOT1,0);
+            analogWrite(MOT2,120);
+            digitalWrite(MOT3,LOW);
+      }
+      else if (ss1==1 && ss2==0 && ss3==1 && ss4==0) {
+            //1010
+            //belok kiri
+            digitalWrite(MOT0,LOW);
+            analogWrite(MOT1,0);
+            analogWrite(MOT2,100);
+            digitalWrite(MOT3,LOW);
+      }
+      else if (ss1==0 && ss2==1 && ss3==0 && ss4==0) {
+            //0100
+            //belok kiri
+            digitalWrite(MOT0,LOW);
+            analogWrite(MOT1,0);
+            analogWrite(MOT2,100);
+            digitalWrite(MOT3,LOW);
+      }
+      else if (ss1==0 && ss2==0 && ss3==0 && ss4==1) {
+            //0001
+            //belok kanan
+            analogWrite(MOT0,100);
+            digitalWrite(MOT1,LOW);
+            digitalWrite(MOT2,LOW);
+            analogWrite(MOT3,0);
+      }
+      else if (ss1==0 && ss2==1 && ss3==0 && ss4==1) {
+            //0101
+            //belok kanan
+            analogWrite(MOT0,100);
+            digitalWrite(MOT1,LOW);
+            digitalWrite(MOT2,LOW);
+            analogWrite(MOT3,0);
+      }
+      else if (ss1==0 && ss2==0 && ss3==1 && ss4==1) {
+            //0011
+            //belok kanan
+            analogWrite(MOT0,110);
+            digitalWrite(MOT1,LOW);
+            digitalWrite(MOT2,LOW);
+            analogWrite(MOT3,0);
+      }
+      else if (ss1==0 && ss2==1 && ss3==1 && ss4==1) {
+            //0111
+            //belok kanan
+            analogWrite(MOT0,120);
+            digitalWrite(MOT1,LOW);
+            digitalWrite(MOT2,LOW);
+            analogWrite(MOT3,0);
+      }
+      else if (ss1==0 && ss2==0 && ss3==1 && ss4==0) {
+            //0010
+            //belok kanan
+            analogWrite(MOT0,100);
+            digitalWrite(MOT1,LOW);
+            digitalWrite(MOT2,LOW);
+            analogWrite(MOT3,0);
+      }
+      else if (ss1==0 && ss2==1 && ss3==1 && ss4==0) {
+            //0110
+            //lurus
+            analogWrite(MOT0,90);
+            analogWrite(MOT1,0);
+            analogWrite(MOT2,90);
+            analogWrite(MOT3,0);
+      }
+      else if (ss1==1 && ss2==1 && ss3==1 && ss4==1) {
+            //1111
+            //lurus
+            analogWrite(MOT0,90);
+            analogWrite(MOT1,0);
+            analogWrite(MOT2,90);
+            analogWrite(MOT3,0);
+      }
+      else if (ss1==0 && ss2==0 && ss3==0 && ss4==0) {
+            //0000
+            //lurus
+            analogWrite(MOT0,90);
+            analogWrite(MOT1,0);
+            analogWrite(MOT2,90);
+            analogWrite(MOT3,0);
+      }
+      else {
+            //lurus
+            analogWrite(MOT0,90);
+            analogWrite(MOT1,0);
+            analogWrite(MOT2,90);
+            analogWrite(MOT3,0);
+      }
+}
